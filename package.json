@@ -1,0 +1,23 @@
+{
+  "name": "ssh-spawner",
+  "version": "1.0.0",
+  "description": "creates a spawn function that will use a preconfigured ssh setup and generate processes on the local machine",
+  "main": "index.js",
+  "scripts": {
+    "test": "./test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmeck/ssh-spawner.git"
+  },
+  "author": "bradleymeck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bmeck/ssh-spawner/issues"
+  },
+  "homepage": "https://github.com/bmeck/ssh-spawner",
+  "devDependencies": {
+    "concat-stream": "^1.4.6",
+    "tape": "^3.0.3"
+  }
+}
