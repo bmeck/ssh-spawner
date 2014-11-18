@@ -36,7 +36,10 @@ exports.createSpawner = function (opts) {
     sshargv.push('-o', 'PasswordAuthentication=no', '-o', 'NumberOfPasswordPrompts=0');
   }
   if (!opts.raw) {
-    sshargv.push('-q', '-o', 'BatchMode=yes');
+    sshargv.push('-q');
+    if (!opts.allowPasswords) {
+      sshargv.push('-o', 'BatchMode=yes');
+    }
   }
   // mostly used for logging and hopping
   if (opts.proxyCommand) {
@@ -71,8 +74,6 @@ exports.createSpawner = function (opts) {
     args.push(bin);
     if (argv != null) args.push.apply(args, argv);
     var ret = _spawn(sshcmd, sshargv.concat('--', shellquote.quote(args)), send_opts); 
-    ret.stdout.pipe(process.stderr);
-    ret.stderr.pipe(process.stderr);
     return ret;
   }
 }
@@ -86,7 +87,11 @@ function inline_env(opts, args) {
     }
   }
   var send_opts = Object.create(opts);
-  send_opts.env = {};
+  send_opts.env = {
+    PATH: process.env.PATH,
+    HOME: process.env.HOME,
+    USER: process.env.USER
+  };
   return send_opts;
 }
 
