@@ -1,4 +1,5 @@
 var _spawn = require('child_process').spawn;
+var shellquote = require('shell-quote');
 
 // THESE CAN BE COMBINED (GOD KNOWS WHY YOU WOULD WANT THAT)
 var ENV_INLINE = 1; // ssh HOME=... PATH=... -- ls # PRETTY STANDARD
@@ -67,9 +68,12 @@ exports.createSpawner = function (opts) {
     else if (envMode === ENV_CMD) {
       bin = cmd_env(opts, bin);
     }
-    args = sshargv.concat('--', bin);
-    if (argv != null) args.push(argv);
-    return _spawn(sshcmd, args, send_opts); 
+    args.push(bin);
+    if (argv != null) args.push.apply(args, argv);
+    var ret = _spawn(sshcmd, sshargv.concat('--', shellquote.quote(args)), send_opts); 
+    ret.stdout.pipe(process.stderr);
+    ret.stderr.pipe(process.stderr);
+    return ret;
   }
 }
 
