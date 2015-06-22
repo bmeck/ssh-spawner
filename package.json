@@ -22,5 +22,10 @@
   },
   "dependencies": {
     "shell-quote": "^1.4.2"
-  }
+  },
+  "keywords": [
+    "ssh",
+    "child_process",
+    "spawn"
+  ]
 }
